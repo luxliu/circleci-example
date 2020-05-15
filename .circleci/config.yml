@@ -14,16 +14,16 @@ jobs:
       - run: npm run test:ci
       - run: npm run build
       - persist_to_workspace:
-          root: ~/project
+          root: ~/
           paths:
-            - build
+            - project/build
   deploy-to-s3:
     docker:
       - image: 'cimg/python:3.6'
     steps:
       - checkout
       - attach_workspace:
-          at: /
+          at: ~/
       - aws-s3/sync:
           arguments: |
             --acl public-read \
