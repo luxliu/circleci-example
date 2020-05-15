@@ -14,8 +14,8 @@ jobs:
       - run: npm run test:ci
       - run: npm run build
       - persist_to_workspace:
-          root: build
-          path: *
+          root: /
+          path: build
   deploy-to-s3:
     docker:
       - image: 'cimg/python:3.6'
