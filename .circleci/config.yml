@@ -7,22 +7,27 @@ jobs:
     executor:
       name: node/default
       tag: '12.14.1'
+    working_directory: /tmp
     steps:
       - checkout
       - node/install-packages
       - run: npm run lint
       - run: npm run test:ci
       - run: npm run build
+      - persist_to_workspace:
+          root: build
   deploy-to-s3:
     docker:
       - image: 'cimg/python:3.6'
+    working_directory: /tmp
     steps:
-      - checkout
+      - attach_workspace:
+        at: /tmp
       - aws-s3/sync:
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400"
-          from: build/
+          from: /tmp/build
           to: 's3://my-cicd-example'
           overwrite: true # default is false
 
