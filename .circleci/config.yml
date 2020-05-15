@@ -19,7 +19,7 @@ jobs:
             - project/build
   deploy-to-s3:
     machine:
-      - image: 'circleci/classic:latest'
+      image: circleci/classic:latest
     steps:
       - checkout
       - attach_workspace:
