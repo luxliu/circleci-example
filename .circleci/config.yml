@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@2.0.0
+  aws-s3: circleci/aws-s3@x.y
 jobs:
   test-and-build:
     executor:
@@ -12,7 +13,24 @@ jobs:
       - run: npm run lint
       - run: npm run test:ci
       - run: npm run build
+  deploy-to-s3:
+    steps:
+      - checkout
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          from: build
+          to: 's3://my-cicd-example'
+          overwrite: true # default is false
+
 workflows:
-  test-and-build:
+  build-deploy:
     jobs:
       - test-and-build
+      - deploy-to-s3:
+          requires:
+            - test-and-build
+          filters:
+            branches:
+              only: master
