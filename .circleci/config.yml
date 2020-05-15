@@ -16,11 +16,13 @@ jobs:
       - run: npm run build
       - persist_to_workspace:
           root: build
+          path: /
   deploy-to-s3:
     docker:
       - image: 'cimg/python:3.6'
     working_directory: /tmp
     steps:
+      - checkout
       - attach_workspace:
         at: /tmp
       - aws-s3/sync:
