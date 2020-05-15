@@ -7,7 +7,6 @@ jobs:
     executor:
       name: node/default
       tag: '12.14.1'
-    working_directory: /tmp
     steps:
       - checkout
       - node/install-packages
@@ -20,16 +19,15 @@ jobs:
   deploy-to-s3:
     docker:
       - image: 'cimg/python:3.6'
-    working_directory: /tmp
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp
+          at: /
       - aws-s3/sync:
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400"
-          from: /tmp/build
+          from: build
           to: 's3://my-cicd-example'
           overwrite: true # default is false
 
