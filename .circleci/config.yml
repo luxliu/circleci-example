@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@2.0.0
-  aws-s3: circleci/aws-s3@x.y
+  aws-s3: circleci/aws-s3@1.0.15
 jobs:
   test-and-build:
     executor:
