@@ -15,7 +15,8 @@ jobs:
       - run: npm run build
       - persist_to_workspace:
           root: /
-          path: build
+          paths:
+            - build
   deploy-to-s3:
     docker:
       - image: 'cimg/python:3.6'
