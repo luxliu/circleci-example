@@ -14,9 +14,8 @@ jobs:
       - run: npm run test:ci
       - run: npm run build
   deploy-to-s3:
-    executor:
-      name: node/default
-      tag: '12.14.1'
+    docker:
+      - image: 'cimg/python:3.6'
     steps:
       - checkout
       - aws-s3/sync:
